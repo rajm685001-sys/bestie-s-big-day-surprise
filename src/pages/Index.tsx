@@ -1,12 +1,29 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import SuspenseIntro from "@/components/SuspenseIntro";
+import HeroSection from "@/components/HeroSection";
+import MemoriesCarousel from "@/components/MemoriesCarousel";
+import Timeline from "@/components/Timeline";
+import EmotionalCore from "@/components/EmotionalCore";
+import CakeCeremony from "@/components/CakeCeremony";
+import BirthdayFooter from "@/components/BirthdayFooter";
 
 const Index = () => {
+  const [introComplete, setIntroComplete] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen overflow-x-hidden">
+      {!introComplete && <SuspenseIntro onComplete={() => setIntroComplete(true)} />}
+
+      {introComplete && (
+        <>
+          <HeroSection />
+          <MemoriesCarousel />
+          <Timeline />
+          <EmotionalCore />
+          <CakeCeremony />
+          <BirthdayFooter />
+        </>
+      )}
     </div>
   );
 };
