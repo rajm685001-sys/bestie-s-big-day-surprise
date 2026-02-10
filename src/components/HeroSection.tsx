@@ -1,11 +1,20 @@
 import { motion } from "framer-motion";
+import heroBanner from "@/assets/hero-banner.jpg";
 
 const HeroSection = () => {
   return (
-    <section
-      className="min-h-screen flex flex-col items-center justify-center px-4 py-20 relative overflow-hidden"
-      style={{ background: "var(--gradient-hero)" }}
-    >
+    <section className="min-h-screen flex flex-col items-center justify-center px-4 py-20 relative overflow-hidden">
+      {/* Background image */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url(${heroBanner})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <div className="absolute inset-0 bg-background/40 backdrop-blur-sm" />
+
       {/* Floating decorations */}
       <div className="absolute inset-0 pointer-events-none">
         {["🎈", "🎀", "⭐", "🦄", "🌸", "💖", "🎁", "🍰"].map((emoji, i) => (
@@ -38,13 +47,13 @@ const HeroSection = () => {
           🎂
         </motion.div>
 
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-display text-primary leading-tight mb-4">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-display text-primary leading-tight mb-4 drop-shadow-lg">
           HAPPY BIRTHDAY,
           <br />
-          <span className="inline-block animate-wiggle">BESTIE!</span> 🎉
+          <span className="inline-block animate-wiggle">MANYUUUUUU!</span> 🎉
         </h1>
 
-        <p className="font-handwritten text-2xl md:text-3xl text-muted-foreground mt-4">
+        <p className="font-handwritten text-2xl md:text-3xl text-foreground mt-4">
           February 13th • The day the world got{" "}
           <span className="text-primary font-bold">✨ way cooler ✨</span>
         </p>

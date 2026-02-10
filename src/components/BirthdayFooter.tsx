@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const BIRTHDAY = new Date(new Date().getFullYear(), 1, 13); // Feb 13
-
 const BirthdayFooter = () => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
@@ -11,7 +9,6 @@ const BirthdayFooter = () => {
       const now = new Date();
       let target = new Date(now.getFullYear(), 1, 13);
       if (now > target) target = new Date(now.getFullYear() + 1, 1, 13);
-
       const diff = target.getTime() - now.getTime();
       setTimeLeft({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -36,7 +33,7 @@ const BirthdayFooter = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          Countdown to Next B-Day! 🎂
+          Countdown to Manyuuuuuu's Next B-Day! 🎂
         </motion.h2>
 
         <div className="flex justify-center gap-4 mb-10">
@@ -65,14 +62,12 @@ const BirthdayFooter = () => {
 
         <div className="mt-12 space-y-2">
           <p className="font-handwritten text-lg text-muted-foreground">
-            Made with 💖 by your bestie
+            Made with 💖 for Manyuuuuuu
           </p>
           <p className="text-muted-foreground/50 text-sm">
             Happy Birthday, you absolute legend! 🎉
           </p>
-          <div className="text-3xl animate-wiggle inline-block mt-2">
-            😘
-          </div>
+          <div className="text-3xl animate-wiggle inline-block mt-2">😘</div>
         </div>
       </div>
     </footer>
