@@ -1,0 +1,61 @@
+import { motion } from "framer-motion";
+
+const EmotionalCore = () => {
+  return (
+    <section className="py-20 px-4 bg-secondary/20">
+      <div className="max-w-3xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-display text-primary mb-8">
+            The Real Talk 💖
+          </h2>
+
+          {/* Photo collage placeholder */}
+          <div className="grid grid-cols-3 gap-3 mb-10 max-w-lg mx-auto">
+            {["🌅", "🤗", "😊", "📸", "💛", "🌈"].map((emoji, i) => (
+              <motion.div
+                key={i}
+                className="aspect-square rounded-xl bg-muted border-2 border-dashed border-border flex items-center justify-center text-3xl"
+                style={{ transform: `rotate(${(i % 3 - 1) * 3}deg)` }}
+                whileHover={{ scale: 1.1, rotate: 0 }}
+              >
+                {emoji}
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            className="scrapbook-card max-w-xl mx-auto"
+            style={{ transform: "rotate(0.5deg)" }}
+            whileInView={{ rotate: 0 }}
+          >
+            <div className="tape-strip -top-3 left-8" />
+            <div className="tape-strip -top-3 right-8" style={{ transform: "rotate(5deg)" }} />
+
+            <p className="font-handwritten text-xl md:text-2xl leading-relaxed text-foreground">
+              "Hey bestie, I just want you to know — you're not just my friend, you're my{" "}
+              <span className="text-primary font-bold">favorite human</span>. 
+              You make every day funnier, every problem smaller, and every adventure better.
+              <br /><br />
+              Thank you for being YOU. The world doesn't deserve you, but I'm so glad I get to 
+              call you my best friend. Here's to a million more laughs, ugly selfies, and 
+              late-night talks. 
+              <br /><br />
+              Love you to the moon and back 🌙💖"
+            </p>
+
+            <div className="mt-6 text-4xl animate-heartbeat inline-block">
+              💕
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+export default EmotionalCore;
