@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const memories = [
@@ -36,12 +36,51 @@ const memories = [
 
 const MemoriesCarousel = () => {
   const [current, setCurrent] = useState(0);
+  const [photos, setPhotos] = useState<(string | null)[]>(Array(memories.length).fill(null));
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const next = () => setCurrent((c) => (c + 1) % memories.length);
   const prev = () => setCurrent((c) => (c - 1 + memories.length) % memories.length);
 
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setPhotos((prev) => {
+        const next = [...prev];
+        next[current] = ev.target?.result as string;
+        return next;
+      });
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (!file?.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setPhotos((prev) => {
+        const next = [...prev];
+        next[current] = ev.target?.result as string;
+        return next;
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <section className="py-20 px-4 bg-secondary/30">
+      <input
+        type="file"
+        ref={fileInputRef}
+        accept="image/*"
+        className="hidden"
+        onChange={handlePhotoUpload}
+      />
       <div className="max-w-4xl mx-auto">
         <motion.h2
           className="text-4xl md:text-5xl font-display text-center text-primary mb-4"
@@ -52,7 +91,7 @@ const MemoriesCarousel = () => {
           Our Funniest Memories 😆
         </motion.h2>
         <p className="text-center font-handwritten text-xl text-muted-foreground mb-12">
-          (Add your own photos later!)
+          Drop your photos onto the cards! 📸
         </p>
 
         <div className="relative flex items-center justify-center min-h-[320px]">
@@ -75,9 +114,30 @@ const MemoriesCarousel = () => {
             >
               <div className="tape-strip -top-3 left-1/2 -translate-x-1/2" />
 
-              {/* Photo placeholder */}
-              <div className="w-full h-48 rounded-lg bg-muted flex items-center justify-center mb-4 border-2 border-dashed border-border">
-                <span className="text-6xl">{memories[current].emoji}</span>
+              {/* Photo area - droppable */}
+              <div
+                className="w-full h-48 rounded-lg bg-muted flex items-center justify-center mb-4 border-2 border-dashed border-border cursor-pointer overflow-hidden relative group"
+                onClick={() => fileInputRef.current?.click()}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={handleDrop}
+              >
+                {photos[current] ? (
+                  <>
+                    <img src={photos[current]!} alt="Memory" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                      <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity font-handwritten text-lg">
+                        Change photo 📷
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <span className="text-6xl">{memories[current].emoji}</span>
+                    <p className="text-sm text-muted-foreground/60 mt-2 font-body">
+                      📸 Click or drag a photo here
+                    </p>
+                  </div>
+                )}
               </div>
 
               <h3 className="font-display text-2xl text-primary mb-2">
@@ -85,10 +145,6 @@ const MemoriesCarousel = () => {
               </h3>
               <p className="font-handwritten text-lg text-muted-foreground">
                 {memories[current].description}
-              </p>
-
-              <p className="text-sm text-muted-foreground/60 mt-4 font-body">
-                📸 Drop your photo here
               </p>
             </motion.div>
           </AnimatePresence>
