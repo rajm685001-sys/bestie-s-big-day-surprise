@@ -1,9 +1,79 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Confetti from "./Confetti";
 import cakeImg from "@/assets/cake-illustration.jpg";
 
 const CANDLE_COUNT = 25;
+
+// Web Audio API SFX helpers
+const playSliceSFX = () => {
+  try {
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(800, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.4);
+  } catch {}
+};
+
+const playConfettiSFX = () => {
+  try {
+    const ctx = new AudioContext();
+    // Pop sound
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(600, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.3);
+    // Sparkle
+    setTimeout(() => {
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.type = "triangle";
+      osc2.frequency.setValueAtTime(1500, ctx.currentTime);
+      osc2.frequency.exponentialRampToValueAtTime(3000, ctx.currentTime + 0.2);
+      gain2.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+      osc2.start(ctx.currentTime);
+      osc2.stop(ctx.currentTime + 0.3);
+    }, 150);
+  } catch {}
+};
+
+const playBlowSFX = () => {
+  try {
+    const ctx = new AudioContext();
+    const bufferSize = ctx.sampleRate * 0.2;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize) * 0.1;
+    }
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    const filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.value = 800;
+    source.connect(filter);
+    filter.connect(ctx.destination);
+    source.start();
+  } catch {}
+};
 
 const Candle = ({ x, lit, onBlow }: { x: number; lit: boolean; onBlow: () => void }) => (
   <div className="absolute" style={{ left: `${x}%`, bottom: "100%", transform: "translateX(-50%)" }}>
@@ -12,7 +82,7 @@ const Candle = ({ x, lit, onBlow }: { x: number; lit: boolean; onBlow: () => voi
       {lit && (
         <motion.div
           className="absolute -top-5 left-1/2 -translate-x-1/2 cursor-pointer"
-          onClick={onBlow}
+          onClick={() => { onBlow(); playBlowSFX(); }}
           exit={{ scale: 0, opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
@@ -74,13 +144,18 @@ const CakeCeremony = () => {
     });
   };
 
-  const blowAll = () => setCandlesLit(Array(CANDLE_COUNT).fill(false));
+  const blowAll = () => {
+    setCandlesLit(Array(CANDLE_COUNT).fill(false));
+    playBlowSFX();
+  };
 
   const cutCake = () => {
     setPhase("cutting");
+    playSliceSFX();
     setTimeout(() => {
       setPhase("cut");
       setShowConfetti(true);
+      playConfettiSFX();
       setShaking(true);
       setTimeout(() => setShaking(false), 500);
       setTimeout(() => {
