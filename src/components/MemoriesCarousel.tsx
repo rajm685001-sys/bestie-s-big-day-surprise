@@ -3,33 +3,33 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const memories = [
   {
-    title: "That Time We...",
-    description: "...got lost in the mall and ended up in the pet store for 2 hours 🐹",
-    emoji: "🤣",
+    title: "The Corridor Chronicles",
+    description: "Sitting on cold floors, sharing snacks & dreams — those were the REAL lectures 📚💜",
+    emoji: "🤗",
     rotation: -2,
   },
   {
-    title: "The Great Food Fight",
-    description: "When you accidentally launched spaghetti at my face. ICONIC. 🍝",
+    title: "Squad Outings = Chaos",
+    description: "That Domino's trip where we took 47 selfies before even ordering 🍕📸",
     emoji: "😂",
     rotation: 1,
   },
   {
-    title: "Sleepover Legends",
-    description: "3AM dance parties, terrible karaoke, zero regrets 💃",
-    emoji: "🎤",
+    title: "The 'Just 5 More Minutes' Era",
+    description: "Every call that was supposed to be 5 mins but lasted 2 hours 🤭💕",
+    emoji: "📞",
     rotation: -1,
   },
   {
     title: "Our Secret Language",
-    description: "Nobody understands us and that's the best part 😜",
+    description: "One look and we both know what the other is thinking. Telepathy unlocked 🧠✨",
     emoji: "🤫",
     rotation: 2,
   },
   {
-    title: "The Matching Outfits Era",
-    description: "Twinning is winning, bestie! We ATE. 👯",
-    emoji: "✨",
+    title: "The 'I Got You' Moments",
+    description: "Every time life got heavy, you showed up. No questions asked. That's real 🥹💖",
+    emoji: "🫂",
     rotation: -3,
   },
 ];
@@ -88,7 +88,7 @@ const MemoriesCarousel = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          Our Funniest Memories 😆
+          Moments That Made Us "Us" 🥹✨
         </motion.h2>
         <p className="text-center font-handwritten text-xl text-muted-foreground mb-12">
           Drop your photos onto the cards! 📸

@@ -4,14 +4,16 @@ import manyu1 from "@/assets/manyu-1.jpeg";
 import manyu2 from "@/assets/manyu-2.jpeg";
 import manyu3 from "@/assets/manyu-3.jpeg";
 import manyu4 from "@/assets/manyu-4.jpeg";
+import manyu5 from "@/assets/manyu-5.jpeg";
+import manyu6 from "@/assets/manyu-6.jpeg";
 
 const photoSlots = [
   { src: manyu1, caption: "Glowing like a queen ✨👑", emoji: "🌅" },
   { src: manyu2, caption: "Cuteness overloaded 🐙💕", emoji: "🤗" },
   { src: manyu3, caption: "Living her best boat life 🚤☀️", emoji: "😊" },
   { src: manyu4, caption: "Desi vibes & sunshine 🌴💛", emoji: "📸" },
-  { src: null, caption: "Add your fave pic! 📸", emoji: "💛" },
-  { src: null, caption: "One more memory! 🌈", emoji: "🌈" },
+  { src: manyu5, caption: "Campus queens chilling 📚💜", emoji: "🤗" },
+  { src: manyu6, caption: "Squad goals outside Domino's 🍕✨", emoji: "🥳" },
 ];
 
 const EmotionalCore = () => {
@@ -113,9 +115,9 @@ const EmotionalCore = () => {
               <br /><br />
               Thank you for being YOU. The world doesn't deserve you, but I'm so glad I get to 
               call you my best friend. Here's to a million more laughs, ugly selfies, and 
-              late-night talks. 
+              chaotic food court adventures. 
               <br /><br />
-              Love you to the moon and back 🌙💖"
+              You're stuck with me forever and there's no refund policy 😤💖"
             </p>
 
             <div className="mt-6 text-4xl animate-heartbeat inline-block">
