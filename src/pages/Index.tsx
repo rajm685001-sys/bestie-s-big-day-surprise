@@ -7,8 +7,9 @@ import EmotionalCore from "@/components/EmotionalCore";
 import GiftBox from "@/components/GiftBox";
 import CakeCeremony from "@/components/CakeCeremony";
 import BirthdayFooter from "@/components/BirthdayFooter";
+import SparkleTrail from "@/components/SparkleTrail";
 
-const BIRTHDAY_MUSIC_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+const BIRTHDAY_MUSIC_URL = "/happy-birthday.mp3";
 
 const Index = () => {
   const [introComplete, setIntroComplete] = useState(false);
@@ -20,10 +21,9 @@ const Index = () => {
     if (introComplete && !musicStarted) {
       const audio = new Audio(BIRTHDAY_MUSIC_URL);
       audio.loop = true;
-      audio.volume = 0.15;
+      audio.volume = 0;
       audioRef.current = audio;
 
-      // Try auto-play, browsers may block without user gesture
       const tryPlay = () => {
         audio.play().then(() => {
           setMusicStarted(true);
@@ -39,7 +39,6 @@ const Index = () => {
             }
           }, 100);
         }).catch(() => {
-          // If blocked, try on first user interaction
           const handler = () => {
             audio.play().then(() => {
               setMusicStarted(true);
@@ -63,6 +62,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
+      <SparkleTrail />
+      
       {!introComplete && <SuspenseIntro onComplete={() => setIntroComplete(true)} />}
 
       {introComplete && (

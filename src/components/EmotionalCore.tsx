@@ -1,8 +1,23 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import manyu1 from "@/assets/manyu-1.jpeg";
+import manyu2 from "@/assets/manyu-2.jpeg";
+import manyu3 from "@/assets/manyu-3.jpeg";
+import manyu4 from "@/assets/manyu-4.jpeg";
+
+const photoSlots = [
+  { src: manyu1, caption: "Glowing like a queen ✨👑", emoji: "🌅" },
+  { src: manyu2, caption: "Cuteness overloaded 🐙💕", emoji: "🤗" },
+  { src: manyu3, caption: "Living her best boat life 🚤☀️", emoji: "😊" },
+  { src: manyu4, caption: "Desi vibes & sunshine 🌴💛", emoji: "📸" },
+  { src: null, caption: "Add your fave pic! 📸", emoji: "💛" },
+  { src: null, caption: "One more memory! 🌈", emoji: "🌈" },
+];
 
 const EmotionalCore = () => {
-  const [photos, setPhotos] = useState<(string | null)[]>(Array(6).fill(null));
+  const [photos, setPhotos] = useState<(string | null)[]>(
+    photoSlots.map((s) => s.src)
+  );
   const fileRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleUpload = (index: number, file: File) => {
@@ -16,8 +31,6 @@ const EmotionalCore = () => {
     };
     reader.readAsDataURL(file);
   };
-
-  const emojis = ["🌅", "🤗", "😊", "📸", "💛", "🌈"];
 
   return (
     <section className="py-20 px-4 bg-secondary/20">
@@ -33,8 +46,8 @@ const EmotionalCore = () => {
           </h2>
 
           {/* Photo collage with upload */}
-          <div className="grid grid-cols-3 gap-3 mb-10 max-w-lg mx-auto">
-            {emojis.map((emoji, i) => (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-10 max-w-lg mx-auto">
+            {photoSlots.map((slot, i) => (
               <div key={i}>
                 <input
                   type="file"
@@ -61,18 +74,26 @@ const EmotionalCore = () => {
                 >
                   {photos[i] ? (
                     <>
-                      <img src={photos[i]!} alt="Memory" className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                        <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-sm">📷</span>
+                      <img src={photos[i]!} alt={slot.caption} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex flex-col items-center justify-end p-2">
+                        <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-xs font-handwritten text-center leading-tight">
+                          {slot.caption}
+                        </span>
                       </div>
                     </>
                   ) : (
                     <div className="flex flex-col items-center">
-                      <span>{emoji}</span>
+                      <span>{slot.emoji}</span>
                       <span className="text-xs text-muted-foreground/50 mt-1">+</span>
                     </div>
                   )}
                 </motion.div>
+                {/* Caption below photo */}
+                {photos[i] && (
+                  <p className="font-handwritten text-xs text-muted-foreground mt-1 truncate">
+                    {slot.caption}
+                  </p>
+                )}
               </div>
             ))}
           </div>
