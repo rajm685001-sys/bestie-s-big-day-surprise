@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SuspenseIntro from "@/components/SuspenseIntro";
 import HeroSection from "@/components/HeroSection";
-import MemoriesCarousel from "@/components/MemoriesCarousel";
+
 import Timeline from "@/components/Timeline";
 import EmotionalCore from "@/components/EmotionalCore";
 import GiftBox from "@/components/GiftBox";
@@ -23,7 +23,7 @@ const Index = () => {
         <>
           <MusicToggle />
           <HeroSection />
-          <MemoriesCarousel />
+          
           <Timeline />
           <EmotionalCore />
           <GiftBox />
